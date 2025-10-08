@@ -1,19 +1,14 @@
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
-
-class Voetbalspeler(models.Model):
-    naam = models.CharField(max_length=100)
-    actuele_voetbalclub = models.CharField(max_length=100)
-    auteur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    datum_invoer = models.DateTimeField(default=timezone.now)
-    laatste_aanpassing = models.DateTimeField(auto_now=True)
-
-    def publiceer(self):
-        """Slaat de invoer op en stelt laatste aanpassing bij."""
-        self.laatste_aanpassing = timezone.now()
-        self.save()
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.naam
+        return self.title
+

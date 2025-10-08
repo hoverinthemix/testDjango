@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import Voetbalspeler
+from .models import Post
 
-@admin.register(Voetbalspeler)
-class VoetbalspelerAdmin(admin.ModelAdmin):
-    list_display = ("naam", "actuele_voetbalclub", "auteur", "datum_invoer", "laatste_aanpassing")
-    search_fields = ("naam", "actuele_voetbalclub")
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'created_date', 'published_date')
+    list_filter = ('published_date', 'created_date', 'author')
+    ordering = ('published_date',)
+    date_hierarchy = 'published_date'
+
+admin.site.register(Post, PostAdmin)
